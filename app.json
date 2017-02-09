@@ -1,0 +1,18 @@
+{
+  "name": "inverted-index",
+  "description": "An application that creates an Index from a JSON array of one or more text objects , it is designed to allow very fast full-text searches.",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
