@@ -1,6 +1,8 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
 const browserSyncTests = require('browser-sync').create();
+const karma = require('karma').Server;
+const path = require('path');
 
 const reload = browserSync.reload;
 const reloadT = browserSyncTests.reload;
@@ -30,6 +32,15 @@ gulp.task('browser-sync-tests', () => {
   });
 });
 
+gulp.task('karma', (done) => {
+  karma.start({
+    configFile: path.resolve('karma.conf.js'),
+    singleRun: true
+  }, () => {
+    done();
+  });
+});
+
 gulp.task('watch', ['browser-sync', 'browser-sync-tests'], () => {
   gulp.watch('src/*.js', reload);
   gulp.watch('src/*.css', reload);
@@ -41,6 +52,10 @@ gulp.task('watch', ['browser-sync', 'browser-sync-tests'], () => {
     ], reloadT);
 });
 
+// default task
 gulp.task('default', [
   'browser-sync','browser-sync-tests', 'watch'
 ]);
+
+// run test
+gulp.task('test', ['karma']);
