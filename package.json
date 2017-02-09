@@ -22,14 +22,14 @@
   "homepage": "https://github.com/andela-ooyewole/inverted-index#readme",
   "dependencies": {
     "browser-sync": "^2.18.7",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "karma": "^1.4.1"
   },
   "devDependencies": {
     "eslint": "^3.13.1",
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-plugin-import": "^2.2.0",
     "jasmine-core": "^2.5.2",
-    "karma": "^1.4.1",
     "karma-chrome-launcher": "^2.0.0",
     "karma-jasmine": "^1.1.0"
   }
