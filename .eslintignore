@@ -2,3 +2,4 @@ jasmine/lib
 node_modules
 jasmine/build/bundle.js
 gulpfile.js
+karma.conf.js
