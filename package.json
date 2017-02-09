@@ -1,0 +1,32 @@
+{
+  "name": "inverted-index",
+  "version": "1.0.0",
+  "description": "Checkpoint 1",
+  "main": "server.js",
+  "engines": {
+    "node": "6.9.4"
+  },
+  "scripts": {
+    "start": "gulp",
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-ooyewole/inverted-index.git"
+  },
+  "author": "Olufemi Oyewole",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andela-ooyewole/inverted-index/issues"
+  },
+  "homepage": "https://github.com/andela-ooyewole/inverted-index#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "browser-sync": "^2.18.7"
+  },
+  "devDependencies": {
+    "eslint": "^3.13.1",
+    "eslint-config-airbnb-base": "^11.0.1",
+    "eslint-plugin-import": "^2.2.0"
+  }
+}

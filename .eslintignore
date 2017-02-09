@@ -1,0 +1,4 @@
+jasmine/lib
+node_modules
+jasmine/build/bundle.js
+gulpfile.js
