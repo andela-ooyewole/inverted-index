@@ -1,8 +1,8 @@
 angular.module('myApp', [])
-.controller('MyController', ['$scope', function($scope) {
+.controller('MyController', ['$scope', ($scope) => {
   $scope.username = 'World';
 
-  $scope.sayHello = function() {
-    $scope.greeting = 'Hello ' + $scope.username + '!';
+  $scope.sayHello = () => {
+    $scope.greeting = `Hello ${$scope.username}!`;
   };
 }]);
