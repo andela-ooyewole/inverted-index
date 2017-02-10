@@ -28,14 +28,20 @@ module.exports = function (config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'src/inverted-index.js': ['coverage']
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'verbose'],
+    reporters: ['progress', 'verbose', 'coverage', 'coveralls'],
 
+    // configure the reporter
+    coverageReporter: {
+      type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
+      dir: 'coverage/'
+    },
 
     // web server port
     port: 9876,
@@ -59,10 +65,10 @@ module.exports = function (config) {
     browsers: ['Chrome'],
 
     customLaunchers: {
-        Chrome_travis_ci: {
-            base: 'Chrome',
-            flags: ['--no-sandbox']
-        }
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
     },
 
 
@@ -74,9 +80,9 @@ module.exports = function (config) {
     // how many browser should be started simultaneous
     concurrency: Infinity
   }
-  
+
   if (process.env.TRAVIS) {
-      cfg.browsers = ['Chrome_travis_ci'];
+    cfg.browsers = ['Chrome_travis_ci'];
   }
 
   config.set(cfg)
