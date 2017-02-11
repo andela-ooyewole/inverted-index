@@ -2,27 +2,46 @@
 <html ng-app="myApp">
 
 <head>
+
   <meta charset="utf-8">
   <title>Inverted Index</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="favicon.ico" rel="icon" type="image/x-icon">
   <link href="style.css" rel="stylesheet">
 
+</head>
+
+<body ng-controller="MyController" ng-cloak>
+
+  <md-toolbar class="md-hue-2">
+    <div class="md-toolbar-tools toolbar">
+      <h2 flex class="title">Inverted Index</h2>
+      <md-input-container class="md-block" md-colors="{background: 'light-blue-50'}" flex="50" style="border-radius: 4px 0 0 4px;">
+        <input class="search-input" ng-model="query">
+      </md-input-container>
+      <md-button class="search-btn" ng-click="search()">Search&nbsp</md-button>
+      <div flex="20"></div>
+    </div>
+  </md-toolbar>
+  <h1>{{result}}</h1>
+
+  <!-- Angular.js Libraries -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+  <!-- Application bootstrap  -->
   <script src="inverted-index.js"></script>
   <script src="app.js"></script>
 
-</head>
-
-<body>
-  <div ng-controller="MyController">
-    <label>Name:</label>
-    <input type="text" ng-model="username">
-    <hr>
-    <button ng-click="sayHello()">Greet</button>
-    <h1>{{greeting}}</h1>
-  </div>
 </body>
 
 </html>

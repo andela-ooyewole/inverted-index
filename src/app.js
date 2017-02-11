@@ -1,8 +1,13 @@
-angular.module('myApp', [])
+const app = angular.module('myApp', ['ngMaterial']);
+app.config(($mdThemingProvider) => {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('light-blue')
+    .accentPalette('amber');
+})
 .controller('MyController', ['$scope', ($scope) => {
-  $scope.username = 'World';
+  $scope.query = '';
 
-  $scope.sayHello = () => {
-    $scope.greeting = `Hello ${$scope.username}!`;
+  $scope.search = () => {
+    $scope.result = $scope.query;
   };
 }]);
