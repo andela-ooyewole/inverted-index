@@ -20,15 +20,15 @@
   <md-toolbar class="md-hue-2">
     <div class="md-toolbar-tools toolbar">
       <h2 flex class="title">Inverted Index</h2>
-      <md-input-container class="md-block" md-colors="{background: 'light-blue-50'}" flex="50" style="border-radius: 4px 0 0 4px;">
+      <md-input-container class="md-block search-container" md-colors="{background: 'light-blue-50'}" flex="50">
         <input class="search-input" ng-model="query">
       </md-input-container>
       <md-button class="search-btn" ng-click="search()">Search&nbsp</md-button>
       <div flex="20"></div>
     </div>
   </md-toolbar>
-  <section layout="row" flex style="height: 100%">
-    <md-sidenav class="md-sidenav-left" md-is-locked-open="true" style="border-right: solid whitesmoke 2px; width: 23%;">
+  <section layout="row" flex class="content-section">
+    <md-sidenav class="md-sidenav-left side-panel" md-is-locked-open="true">
       <md-content layout-padding>
         <h4>About:</h4>
         <p>
@@ -47,16 +47,17 @@
         <li>Click 'Search'</li>
       </md-content>
     </md-sidenav>
-    <md-content flex layout-padding>
-      <input ng-hide="true" id="input" type="file" onchange="angular.element(this).scope().file_changed(this)" multiple accept=".json"/>
+    <md-content layout-padding>
+      <input ng-hide="true" id="input" type="file" onchange="angular.element(this).scope().storeFiles(this)" multiple accept=".json"/>
       <md-button ng-click="upload()"><md-icon>add_box</md-icon>&nbspUpload</md-button>
-      <md-select ng-model="selectedFile" placeholder="--select file--" flex="30" style="text-align: center">
-        <md-option value="sword">Sword</md-option>
-        <md-option value="wand">Wand</md-option>
-        <md-option ng-value="result">{{result}}</md-option>
-        <md-option value="pen">Pen?</md-option>
+    </md-content>
+    <md-content flex="30" layout-padding>
+      <md-select ng-model="selectedFile" placeholder="--select file--" ng-disabled="noFilesSelected">
+        <md-option ng-value="file.name" ng-repeat="file in storedFiles">{{file.name}}</md-option>
       </md-select>
-      {{selectedFile}}
+    </md-content>
+    <md-content layout-padding>
+      <md-button class="md-accent md-hue-2 md-raised" >Create Index</md-button>
     </md-content>
   </section>
 

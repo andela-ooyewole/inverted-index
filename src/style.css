@@ -13,6 +13,14 @@ md-input-container .search-input {
   color: darkslategray;
 }
 
+md-select {
+  text-align: center;
+}
+
+.content-section {
+  height: 100%;
+}
+
 .search-btn {
   color : rgb(49, 46, 46);
   background-color: lightgray;
@@ -20,6 +28,14 @@ md-input-container .search-input {
   font-size: 14px;
   padding: 0;
   margin: 0;
+}
+
+.search-container {
+  border-radius: 4px 0 0 4px;
+}
+
+.side-panel {
+  border-right: solid whitesmoke 2px; width: 23%;
 }
 
 .title {
