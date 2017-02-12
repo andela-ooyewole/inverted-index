@@ -40,7 +40,8 @@ gulp.task('watch', ['browser-sync', 'browser-sync-tests'], () => {
   gulp.watch(
     [
       './src/inverted-index.js',
-      './jasmine/spec/inverted-index-test.js'
+      './jasmine/spec/inverted-index-test.js',
+      './jasmine/*.json'
     ], ['build-tests']);
   gulp.watch('./jasmine/spec/bundled-inverted-index-test.js', reloadT);
 });

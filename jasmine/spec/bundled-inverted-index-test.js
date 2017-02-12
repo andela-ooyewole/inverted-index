@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,17 +74,35 @@
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__books_json__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__books_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__books_json__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__invalid_content_json__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__invalid_content_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__invalid_content_json__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__invalid_key_json__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__invalid_key_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__invalid_key_json__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__empty_array_json__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__empty_array_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__empty_array_json__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__invalid_file_json__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__invalid_file_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__invalid_file_json__);
 // eslint-disable-next-line no-use-before-define
+
+
+
+
 
 
 const index = new Index();
 
 describe('Read book data', () => {
-  it('Should be a valid JSON array', () => {
-    expect(index.sampleTest).toBe('working');
+  it('Should have keys named \'title\' and \'text\' with string for values',
+  () => {
+    expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_1__invalid_content_json___default.a)).toBe('Invalid file content');
+    expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_2__invalid_key_json___default.a)).toBe('Invalid file content');
   });
   it('Should not be empty', () => {
-    expect(__WEBPACK_IMPORTED_MODULE_0__books_json___default.a[0].title).toBe('Alice in Wonderland');
+    expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_3__empty_array_json___default.a)).toBe('File is empty');
+  });
+  it('Should not be an invalid file', () => {
+    expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_4__invalid_file_json___default.a)).toBe('Invalid file');
+    expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_0__books_json___default.a)).toBe('Valid file');
   });
 });
 
@@ -93,7 +111,7 @@ describe('Read book data', () => {
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__dirname) {var path = __webpack_require__(3);
+/* WEBPACK VAR INJECTION */(function(__dirname) {var path = __webpack_require__(7);
 
 module.exports = {
   entry: './jasmine/spec/inverted-index-test.js',
@@ -122,6 +140,40 @@ module.exports = [
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+module.exports = [];
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = [
+	{
+		"title": "sample",
+		"text": true
+	}
+];
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = "";
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = [
+	{
+		"t": "sample",
+		"text": "sample"
+	}
+];
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -349,10 +401,10 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 4 */
+/* 8 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -538,7 +590,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 5 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(0);
