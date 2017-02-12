@@ -27,7 +27,38 @@
       <div flex="20"></div>
     </div>
   </md-toolbar>
-  <h1>{{result}}</h1>
+  <section layout="row" flex style="height: 100%">
+    <md-sidenav class="md-sidenav-left" md-is-locked-open="true" style="border-right: solid whitesmoke 2px; width: 23%;">
+      <md-content layout-padding>
+        <h4>About:</h4>
+        <p>
+          Inverted index is a method which is designed to allow very fast
+          full-text searches. It consists of a list of all the unique words that
+          appear in any document, and for each word, a list of the documents in
+          which it appears. This predetermined lists help form an index which is
+          queried when searching for a string of words in the documents.
+        </p>
+        <md-divider></md-divider>
+        <h4>Usage:</h4>
+        <li>Upload files</li>
+        <li>Select file</li>
+        <li>Click 'Create Index'</li>
+        <li>Enter search term(s)</li>
+        <li>Click 'Search'</li>
+      </md-content>
+    </md-sidenav>
+    <md-content flex layout-padding>
+      <input ng-hide="true" id="input" type="file" onchange="angular.element(this).scope().file_changed(this)" multiple accept=".json"/>
+      <md-button ng-click="upload()"><md-icon>add_box</md-icon>&nbspUpload</md-button>
+      <md-select ng-model="selectedFile" placeholder="--select file--" flex="30" style="text-align: center">
+        <md-option value="sword">Sword</md-option>
+        <md-option value="wand">Wand</md-option>
+        <md-option ng-value="result">{{result}}</md-option>
+        <md-option value="pen">Pen?</md-option>
+      </md-select>
+      {{selectedFile}}
+    </md-content>
+  </section>
 
   <!-- Angular.js Libraries -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>

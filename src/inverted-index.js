@@ -14,6 +14,7 @@ class Index {
   constructor() {
     this.indices = {};
     this.indexedFiles = {};
+    this.selectedBooks = [];
     this.sampleTest = 'working';
     this.test = false;
   }

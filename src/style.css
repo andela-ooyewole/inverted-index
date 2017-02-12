@@ -1,3 +1,18 @@
+md-content h4 {
+  margin-bottom: 0;
+}
+
+md-content p {
+  margin-top: 0;
+  font-size: .8em;
+}
+
+md-input-container .search-input {
+  margin-bottom: -27px;
+  font-size: 80%;
+  color: darkslategray;
+}
+
 .search-btn {
   color : rgb(49, 46, 46);
   background-color: lightgray;
@@ -5,12 +20,6 @@
   font-size: 14px;
   padding: 0;
   margin: 0;
-}
-
-md-input-container .search-input {
-  margin-bottom: -27px;
-  font-size: 80%;
-  color: darkslategray;
 }
 
 .title {
