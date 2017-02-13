@@ -14,9 +14,6 @@ class Index {
   constructor() {
     this.indices = {};
     this.indexedFiles = {};
-    this.selectedBooks = [];
-    this.sampleTest = 'working';
-    this.test = false;
   }
   /**
    * Validate File
@@ -50,23 +47,55 @@ class Index {
    * @returns {Object} Object containing index
    */
   createIndex(fileName, fileContent) {
+    const indices = {};
+    const documentText = [];
+    const searchOptimizedDocText = [];
+    fileContent.forEach((document) => {
+      // normalize words
+      const normalizedText = (`${document.title} ${document.text}`)
+        .toLowerCase().trim().replace(/[^a-zA-Z 0-9]+/g, '');
+      documentText.push(normalizedText);
+      searchOptimizedDocText.push(` ${normalizedText} `);
+    });
+    // tokenized words
+    const documentWords = documentText.join(' ').split(/\s/);
+    // filter unique words
+    const uniqueWords = documentWords.filter((word, index) =>
+      documentWords.indexOf(word) === index);
+    const sortedUniqueWords = uniqueWords.sort();
+
+    sortedUniqueWords.forEach((word) => {
+      indices[word] = [];
+      searchOptimizedDocText.forEach((document, position) => {
+        if (document.includes(` ${word} `)) {
+          indices[word].push(position);
+        }
+      });
+    });
+
+    this.indexedFiles[fileName] = indices;
   }
 
   /**
    * Get Index
    *
+   * @param {String} fileName Name of the document
    * @returns {type} description
    */
-  getIndex() {
+  getIndex(fileName) {
+    // if (fileName === undefined) {
+    //   return this.index;
+    // }
+    return this.indexedFiles[fileName];
   }
 
   /**
    * Search Index
    *
-   * @param {Any} terms description
+   * @param {Any} token description
    * @returns {type} description
    */
-  searchIndex(terms) {
+  searchIndex(token) {
   }
 }
 

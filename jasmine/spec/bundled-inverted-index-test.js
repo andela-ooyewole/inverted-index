@@ -91,12 +91,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 const index = new Index();
 
+index.createIndex('books.json', __WEBPACK_IMPORTED_MODULE_0__books_json___default.a);
+
 describe('Read book data', () => {
   it('Should have keys named \'title\' and \'text\' with string for values',
-  () => {
-    expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_1__invalid_content_json___default.a)).toBe('Invalid file content');
-    expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_2__invalid_key_json___default.a)).toBe('Invalid file content');
-  });
+    () => {
+      expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_1__invalid_content_json___default.a)).toBe('Invalid file content');
+      expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_2__invalid_key_json___default.a)).toBe('Invalid file content');
+    });
   it('Should not be empty', () => {
     expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_3__empty_array_json___default.a)).toBe('File is empty');
   });
@@ -104,6 +106,51 @@ describe('Read book data', () => {
     expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_4__invalid_file_json___default.a)).toBe('Invalid file');
     expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_0__books_json___default.a)).toBe('Valid file');
   });
+});
+
+describe('Populate Index', () => {
+  it('Should verify that the index is created once the JSON file has been read',
+    () => {
+      expect(index.getIndex('books.json')).toBeDefined();
+    });
+  it('Should map the string keys to the correct objects in the JSON array',
+    () => {
+      expect(index.getIndex('books.json')).toEqual(
+        {
+          a: [0, 1],
+          alice: [0],
+          alliance: [1],
+          an: [1],
+          and: [0, 1],
+          destroy: [1],
+          dwarf: [1],
+          elf: [1],
+          enters: [0],
+          falls: [0],
+          fellowship: [1],
+          full: [0],
+          hobbit: [1],
+          hole: [0],
+          imagination: [0],
+          in: [0],
+          into: [0],
+          lord: [1],
+          man: [1],
+          of: [0, 1],
+          powerful: [1],
+          rabbit: [0],
+          ring: [1],
+          rings: [1],
+          seek: [1],
+          the: [1],
+          to: [1],
+          unusual: [1],
+          wizard: [1],
+          wonderland: [0],
+          world: [0]
+        }
+      );
+    });
 });
 
 
