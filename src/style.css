@@ -1,3 +1,15 @@
+.column-center {
+  text-align: center;
+}
+
+.index-column div {
+  width: 150px;
+}
+
+.index-column .md-secondary-container {
+  width: 0px;
+}
+
 md-content h4 {
   margin-bottom: 0;
 }
@@ -32,6 +44,7 @@ md-select {
 
 .search-container {
   border-radius: 4px 0 0 4px;
+  background-color: aliceblue;
 }
 
 .side-panel {

@@ -15,15 +15,16 @@ app.controller('MyController', ($scope, $mdDialog) => {
   $scope.noFilesSelected = true;
   $scope.query = '';
   $scope.selectedFile = '--select file--';
-  $scope.storedFiles = [];
+  $scope.showIndex = false;
+  $scope.fileContents = [];
 
 
   $scope.createIndex = () => {
+    if ($scope.selectedFile !== '--select file--') $scope.showIndex = true;
     if ($scope.fileNames.length > 0) {
-      const fileIndex = $scope.fileNames.indexOf($scope.selectedFile);
-      const fileName = $scope.storedFiles[fileIndex].name;
-      const fileContent = $scope.storedFiles[fileIndex].content;
-      index.createIndex(fileName, fileContent);
+      $scope.fileLocation = $scope.fileNames.indexOf($scope.selectedFile);
+      const fileContent = $scope.fileContents[$scope.fileLocation];
+      index.createIndex($scope.selectedFile, fileContent);
       $scope.indexedFiles = index.indexedFiles;
       $scope.keys = Object.keys($scope.indexedFiles[$scope.selectedFile]);
       $scope.index = $scope.indexedFiles[$scope.selectedFile];
@@ -65,18 +66,14 @@ app.controller('MyController', ($scope, $mdDialog) => {
             const content = JSON.parse(fileContent);
             const fileValidity = index.validateFile(content);
             if (fileValidity === 'Valid file') {
-              const fileInformation = {
-                name,
-                content
-              };
-              $scope.storedFiles.push(fileInformation);
+              $scope.fileContents.push(content);
               $scope.fileNames.push(name);
             } else {
               $scope.errorMessage.title = fileValidity;
               $scope.errorMessage.content = `'${name}' is not 
                 a valid JSON file.`;
               $scope.showAlert();
-              $scope.noFilesSelected = $scope.storedFiles.length === 0;
+              $scope.noFilesSelected = $scope.fileContents.length === 0;
             }
           };
         }
