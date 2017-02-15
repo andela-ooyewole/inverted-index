@@ -11,10 +11,24 @@ app.controller('MyController', ($scope, $mdDialog) => {
     content: ''
   };
   $scope.fileNames = [];
+  $scope.indexedFiles = {};
   $scope.noFilesSelected = true;
   $scope.query = '';
   $scope.selectedFile = '--select file--';
   $scope.storedFiles = [];
+
+
+  $scope.createIndex = () => {
+    if ($scope.fileNames.length > 0) {
+      const fileIndex = $scope.fileNames.indexOf($scope.selectedFile);
+      const fileName = $scope.storedFiles[fileIndex].name;
+      const fileContent = $scope.storedFiles[fileIndex].content;
+      index.createIndex(fileName, fileContent);
+      $scope.indexedFiles = index.indexedFiles;
+      $scope.keys = Object.keys($scope.indexedFiles[$scope.selectedFile]);
+      $scope.index = $scope.indexedFiles[$scope.selectedFile];
+    }
+  };
   $scope.search = () => {
     $scope.result = $scope.query;
   };
@@ -30,10 +44,6 @@ app.controller('MyController', ($scope, $mdDialog) => {
         .ok('Got it!')
         .targetEvent(ev)
     );
-  };
-  // trigger file selection for input
-  $scope.upload = () => {
-    document.getElementById('input').click();
   };
   // store uploaded files
   $scope.storeFiles = (element) => {
@@ -72,5 +82,9 @@ app.controller('MyController', ($scope, $mdDialog) => {
         }
       }
     });
+  };
+  // trigger file selection for input
+  $scope.upload = () => {
+    document.getElementById('input').click();
   };
 });

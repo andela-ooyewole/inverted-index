@@ -57,7 +57,13 @@
       </md-select>
     </md-content>
     <md-content layout-padding>
-      <md-button class="md-accent md-hue-2 md-raised" >Create Index</md-button>
+      <md-button class="md-accent md-hue-2 md-raised" ng-click="createIndex()" >Create Index</md-button>
+    </md-content>
+    <md-content>
+      <ul>
+        <!--<li ng-repeat="item in indexedFiles['books.json']">{{item}}</li>-->
+        <li ng-repeat="key in keys">{{key}}&nbsp{{index[key]}}</li>
+      </ul>
     </md-content>
   </section>
 
