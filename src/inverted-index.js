@@ -12,7 +12,6 @@ class Index {
    * indexed files
    */
   constructor() {
-    this.indices = {};
     this.indexedFiles = {};
   }
   /**
@@ -44,7 +43,7 @@ class Index {
    *
    * @param {String} fileName Name of the document
    * @param {Object} fileContent Contents of the documnet
-   * @returns {Object} Object containing index
+   * @returns {Object} Object containing file indices
    */
   createIndex(fileName, fileContent) {
     const indices = {};
@@ -79,12 +78,16 @@ class Index {
   /**
    * Get Index
    *
-   * @param {String} fileName Name of the document
-   * @returns {type} description
+   * getIndex method takes a file name and returns the value of the key in the
+   * indexedFiles object that matches the file name
+   *
+   * @param {String} fileName Name of a document
+   * @returns {Object} Object containing individual words contained in the file
+   * and their indices
    */
   getIndex(fileName) {
     // if (fileName === undefined) {
-    //   return this.index;
+    //   return this.indexedFiles;
     // }
     return this.indexedFiles[fileName];
   }
