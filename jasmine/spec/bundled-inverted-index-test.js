@@ -86,7 +86,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__invalid_key_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__invalid_key_json__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__science_fiction_books_json__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__science_fiction_books_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__science_fiction_books_json__);
-// eslint-disable-next-line no-use-before-define
+/* eslint-disable */
 
 
 
@@ -94,6 +94,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+/* eslint-enable */
 
 const index = new Index();
 

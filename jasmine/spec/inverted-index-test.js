@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-use-before-define
+/* eslint-disable */
 import books from '../books.json';
 import adventureBooks from '../adventure-books.json';
 import emptyArray from '../empty-array.json';
@@ -6,6 +6,7 @@ import invalidContent from '../invalid-content.json';
 import invalidFile from '../invalid-file.json';
 import invalidKey from '../invalid-key.json';
 import scienceFictionBooks from '../science-fiction-books.json';
+/* eslint-enable */
 
 const index = new Index();
 

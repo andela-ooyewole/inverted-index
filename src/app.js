@@ -4,14 +4,13 @@ app.config(($mdThemingProvider) => {
     .primaryPalette('light-blue')
     .accentPalette('amber');
 });
-app.controller('MyController', ($scope, $mdDialog) => {
+app.controller('MyController', ($scope, $mdDialog, $mdToast) => {
   const index = new Index();
   $scope.errorMessage = {
     title: '',
     content: ''
   };
   $scope.fileNames = [];
-  $scope.indexedFiles = {};
   $scope.noFilesSelected = true;
   $scope.query = '';
   $scope.selectedFile = '--select file--';
@@ -25,9 +24,8 @@ app.controller('MyController', ($scope, $mdDialog) => {
       $scope.fileLocation = $scope.fileNames.indexOf($scope.selectedFile);
       const fileContent = $scope.fileContents[$scope.fileLocation];
       index.createIndex($scope.selectedFile, fileContent);
-      $scope.indexedFiles = index.indexedFiles;
-      $scope.keys = Object.keys($scope.indexedFiles[$scope.selectedFile]);
-      $scope.index = $scope.indexedFiles[$scope.selectedFile];
+      $scope.words = Object.keys(index.getIndex($scope.selectedFile));
+      $scope.index = index.getIndex($scope.selectedFile);
     }
   };
   $scope.search = () => {
@@ -44,6 +42,15 @@ app.controller('MyController', ($scope, $mdDialog) => {
         .ariaLabel('Alert Dialog')
         .ok('Got it!')
         .targetEvent(ev)
+    );
+  };
+  // valid file uploaded alert
+  $scope.showSuccessMessage = () => {
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent('File(s) uploaded!')
+        .position('bottom right')
+        .hideDelay(3000)
     );
   };
   // store uploaded files
@@ -68,6 +75,7 @@ app.controller('MyController', ($scope, $mdDialog) => {
             if (fileValidity === 'Valid file') {
               $scope.fileContents.push(content);
               $scope.fileNames.push(name);
+              $scope.showSuccessMessage();
             } else {
               $scope.errorMessage.title = fileValidity;
               $scope.errorMessage.content = `'${name}' is not 
