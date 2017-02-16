@@ -1,13 +1,17 @@
 // eslint-disable-next-line no-use-before-define
 import books from '../books.json';
-import invalidContent from '../invalid-content.json';
-import invalidKey from '../invalid-key.json';
+import adventureBooks from '../adventure-books.json';
 import emptyArray from '../empty-array.json';
+import invalidContent from '../invalid-content.json';
 import invalidFile from '../invalid-file.json';
+import invalidKey from '../invalid-key.json';
+import scienceFictionBooks from '../science-fiction-books.json';
 
 const index = new Index();
 
 index.createIndex('books.json', books);
+index.createIndex('adventure-books.json', adventureBooks);
+index.createIndex('science-fiction-books.json', scienceFictionBooks);
 
 describe('Read book data', () => {
   it('Should have keys named \'title\' and \'text\' with string for values',
@@ -67,4 +71,82 @@ describe('Populate Index', () => {
         }
       );
     });
+});
+
+describe('Search Index', () => {
+  it(`Should return an array of the indices of the correct objects that contain
+    the words in the search query`, () => {
+    expect(index.searchIndex('books.json', 'a rabbit')).toEqual({
+      'books.json': {
+        a: [0, 1],
+        rabbit: [0]
+      }
+    });
+    expect(index.searchIndex('adventure-books.json', 'a king billy')).toEqual({
+      'adventure-books.json': {
+        a: [0, 1],
+        king: [0],
+        billy: [1]
+      }
+    });
+  });
+  it('Should handle an array of search terms', () => {
+    expect(index.searchIndex('books.json', ['a, rabbit'])).toEqual({
+      'books.json': {
+        a: [0, 1],
+        rabbit: [0]
+      }
+    });
+    expect(index.searchIndex('adventure-books.json', ['a', 'king', 'billy']))
+      .toEqual({
+        'adventure-books.json': {
+          a: [0, 1],
+          king: [0],
+          billy: [1]
+        }
+      });
+  });
+  it('Should handle a varied number of search terms', () => {
+    expect(index.searchIndex('books.json', 'a', 'rabbit')).toEqual({
+      'books.json': {
+        a: [0, 1],
+        rabbit: [0]
+      }
+    });
+  });
+  it('Should return an empty object if no match is found', () => {
+    expect(index.searchIndex('adventure-books.json', 'house'))
+      .toEqual({
+        'adventure-books.json': {}
+      });
+  });
+  it('Should normalize search string before search', () => {
+    expect(index.searchIndex(
+      'books.json', 'A RABBIT!@#$%^&*()_+=-][}{/?><.,|}]`~€‹›'
+    )).toEqual({
+      'books.json': {
+        a: [0, 1],
+        rabbit: [0]
+      }
+    });
+  });
+  it('Should have an optional "filename" argument ', () => {
+    expect(index.searchIndex('a', 'and', 'of'))
+    .toEqual({
+      'books.json': {
+        a: [0, 1],
+        and: [0, 1],
+        of: [0, 1]
+      },
+      'adventure-books.json': {
+        a: [0, 1],
+        of: [0]
+      },
+      'science-fiction-books.json': {
+        a: [0, 2],
+        and: [2],
+        of: [2]
+      }
+    });
+  });
 });

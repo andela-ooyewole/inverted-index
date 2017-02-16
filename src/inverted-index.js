@@ -71,7 +71,6 @@ class Index {
         }
       });
     });
-
     this.indexedFiles[fileName] = indices;
   }
 
@@ -81,7 +80,7 @@ class Index {
    * getIndex method takes a file name and returns the value of the key in the
    * indexedFiles object that matches the file name
    *
-   * @param {String} fileName Name of a document
+   * @param {String} fileName Name of a file
    * @returns {Object} Object containing individual words contained in the file
    * and their indices
    */
@@ -95,10 +94,35 @@ class Index {
   /**
    * Search Index
    *
-   * @param {Any} token description
+   * @param {String} fileName Name of a file
+   * @param {String[]} tokens string or array of strings
    * @returns {type} description
    */
-  searchIndex(token) {
+  searchIndex(...phrases) {
+    let fileName = [];
+    if (phrases[0].slice(-5) === '.json') {
+      fileName[0] = phrases[0];
+      phrases.splice(0, 1);
+    } else {
+      fileName = Object.keys(this.indexedFiles);
+    }
+    let searchTokens = [];
+    phrases.forEach((tokens) => {
+      if (!Array.isArray(tokens)) tokens = [tokens];
+      tokens.forEach((token) => {
+        searchTokens = searchTokens.concat(token.toLowerCase().match(/\w+/g));
+      });
+    });
+    const searchedIndexedFiles = {};
+    fileName.forEach((name) => {
+      searchedIndexedFiles[name] = {};
+      searchTokens.forEach((token) => {
+        if (token in this.indexedFiles[name]) {
+          searchedIndexedFiles[name][token] = this.indexedFiles[name][token];
+        }
+      });
+    });
+    return searchedIndexedFiles;
   }
 }
 
