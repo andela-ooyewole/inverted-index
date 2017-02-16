@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -72,19 +72,171 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__books_json__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__books_json__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__books_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__books_json__);
-// eslint-disable-next-line no-use-before-define
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__adventure_books_json__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__adventure_books_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__adventure_books_json__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__empty_array_json__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__empty_array_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__empty_array_json__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__invalid_content_json__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__invalid_content_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__invalid_content_json__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__invalid_file_json__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__invalid_file_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__invalid_file_json__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__invalid_key_json__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__invalid_key_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__invalid_key_json__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__science_fiction_books_json__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__science_fiction_books_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__science_fiction_books_json__);
+/* eslint-disable */
 
+
+
+
+
+
+
+/* eslint-enable */
 
 const index = new Index();
 
+index.createIndex('books.json', __WEBPACK_IMPORTED_MODULE_0__books_json___default.a);
+index.createIndex('adventure-books.json', __WEBPACK_IMPORTED_MODULE_1__adventure_books_json___default.a);
+index.createIndex('science-fiction-books.json', __WEBPACK_IMPORTED_MODULE_6__science_fiction_books_json___default.a);
+
 describe('Read book data', () => {
-  it('Should be a valid JSON array', () => {
-    expect(index.sampleTest).toBe('working');
-  });
+  it('Should have keys named \'title\' and \'text\' with string for values',
+    () => {
+      expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_3__invalid_content_json___default.a)).toBe('Invalid file content');
+      expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_5__invalid_key_json___default.a)).toBe('Invalid file content');
+    });
   it('Should not be empty', () => {
-    expect(__WEBPACK_IMPORTED_MODULE_0__books_json___default.a[0].title).toBe('Alice in Wonderland');
+    expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_2__empty_array_json___default.a)).toBe('File is empty');
+  });
+  it('Should not be an invalid file', () => {
+    expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_4__invalid_file_json___default.a)).toBe('Invalid file');
+    expect(index.validateFile(__WEBPACK_IMPORTED_MODULE_0__books_json___default.a)).toBe('Valid file');
+  });
+});
+
+describe('Populate Index', () => {
+  it('Should verify that the index is created once the JSON file has been read',
+    () => {
+      expect(index.getIndex('books.json')).toBeDefined();
+    });
+  it('Should map the string keys to the correct objects in the JSON array',
+    () => {
+      expect(index.getIndex('books.json')).toEqual(
+        {
+          a: [0, 1],
+          alice: [0],
+          alliance: [1],
+          an: [1],
+          and: [0, 1],
+          destroy: [1],
+          dwarf: [1],
+          elf: [1],
+          enters: [0],
+          falls: [0],
+          fellowship: [1],
+          full: [0],
+          hobbit: [1],
+          hole: [0],
+          imagination: [0],
+          in: [0],
+          into: [0],
+          lord: [1],
+          man: [1],
+          of: [0, 1],
+          powerful: [1],
+          rabbit: [0],
+          ring: [1],
+          rings: [1],
+          seek: [1],
+          the: [1],
+          to: [1],
+          unusual: [1],
+          wizard: [1],
+          wonderland: [0],
+          world: [0]
+        }
+      );
+    });
+});
+
+describe('Search Index', () => {
+  it(`Should return an array of the indices of the correct objects that contain
+    the words in the search query`, () => {
+    expect(index.searchIndex('books.json', 'a rabbit')).toEqual({
+      'books.json': {
+        a: [0, 1],
+        rabbit: [0]
+      }
+    });
+    expect(index.searchIndex('adventure-books.json', 'a king billy')).toEqual({
+      'adventure-books.json': {
+        a: [0, 1],
+        king: [0],
+        billy: [1]
+      }
+    });
+  });
+  it('Should handle an array of search terms', () => {
+    expect(index.searchIndex('books.json', ['a, rabbit'])).toEqual({
+      'books.json': {
+        a: [0, 1],
+        rabbit: [0]
+      }
+    });
+    expect(index.searchIndex('adventure-books.json', ['a', 'king', 'billy']))
+      .toEqual({
+        'adventure-books.json': {
+          a: [0, 1],
+          king: [0],
+          billy: [1]
+        }
+      });
+  });
+  it('Should handle a varied number of search terms', () => {
+    expect(index.searchIndex('books.json', 'a', 'rabbit')).toEqual({
+      'books.json': {
+        a: [0, 1],
+        rabbit: [0]
+      }
+    });
+  });
+  it('Should return an empty object if no match is found', () => {
+    expect(index.searchIndex('adventure-books.json', 'house'))
+      .toEqual({
+        'adventure-books.json': {}
+      });
+  });
+  it('Should normalize search string before search', () => {
+    expect(index.searchIndex(
+      'books.json', 'A RABBIT!@#$%^&*()_+=-][}{/?><.,|}]`~€‹›'
+    )).toEqual({
+      'books.json': {
+        a: [0, 1],
+        rabbit: [0]
+      }
+    });
+  });
+  it('Should have an optional "filename" argument ', () => {
+    expect(index.searchIndex('a', 'and', 'of'))
+    .toEqual({
+      'books.json': {
+        a: [0, 1],
+        and: [0, 1],
+        of: [0, 1]
+      },
+      'adventure-books.json': {
+        a: [0, 1],
+        of: [0]
+      },
+      'science-fiction-books.json': {
+        a: [0, 2],
+        and: [2],
+        of: [2]
+      }
+    });
   });
 });
 
@@ -93,7 +245,7 @@ describe('Read book data', () => {
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__dirname) {var path = __webpack_require__(3);
+/* WEBPACK VAR INJECTION */(function(__dirname) {var path = __webpack_require__(9);
 
 module.exports = {
   entry: './jasmine/spec/inverted-index-test.js',
@@ -111,6 +263,21 @@ module.exports = {
 
 module.exports = [
 	{
+		"title": "King Solomons Mines",
+		"text": "It tells of a search of an unexplored region of Africa by a group of adventurers."
+	},
+	{
+		"title": "Treasure Island",
+		"text": "A wild seaman, Billy Bones, comes to stay, bringing with him a large sea chest"
+	}
+];
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = [
+	{
 		"title": "Alice in Wonderland",
 		"text": "Alice falls into a rabbit hole and enters a world full of imagination."
 	},
@@ -121,7 +288,60 @@ module.exports = [
 ];
 
 /***/ }),
-/* 3 */
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = [];
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = [
+	{
+		"title": "sample",
+		"text": true
+	}
+];
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = "";
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = [
+	{
+		"t": "sample",
+		"text": "sample"
+	}
+];
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+module.exports = [
+	{
+		"title": "Stranger in a Strange Land",
+		"text": "Valentine Michael Smith is a human being raised on Mars, newly returned to Earth."
+	},
+	{
+		"title": "Ender's Game",
+		"text": "Andrew Ender Wiggin thinks he is playing computer simulated war games."
+	},
+	{
+		"title": "The Moon is a Harsh Mistress",
+		"text": "The Moon is a penal colony for the rebellious and the unwanted of Earth."
+	}
+];
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -349,10 +569,10 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
-/* 4 */
+/* 10 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -538,7 +758,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 5 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(0);

@@ -20,14 +20,66 @@
   <md-toolbar class="md-hue-2">
     <div class="md-toolbar-tools toolbar">
       <h2 flex class="title">Inverted Index</h2>
-      <md-input-container class="md-block" md-colors="{background: 'light-blue-50'}" flex="50" style="border-radius: 4px 0 0 4px;">
+      <md-input-container class="md-block search-container" flex="50">
         <input class="search-input" ng-model="query">
       </md-input-container>
-      <md-button class="search-btn" ng-click="search()">Search&nbsp</md-button>
+      <md-button class="search-btn" ng-click="showToast()">Search&nbsp</md-button>
       <div flex="20"></div>
     </div>
   </md-toolbar>
-  <h1>{{result}}</h1>
+  <section layout="row" flex class="content-section">
+    <md-sidenav class="md-sidenav-left side-panel" md-is-locked-open="true">
+      <md-content layout-padding>
+        <h4>About:</h4>
+        <p>
+          Inverted index is a method which is designed to allow very fast full-text searches. It consists of a list of all the unique
+          words that appear in any document, and for each word, a list of the documents in which it appears. This predetermined
+          lists help form an index which is queried when searching for a string of words in the documents.
+        </p>
+        <md-divider></md-divider>
+        <h4>Usage:</h4>
+        <li>Upload file(s)</li>
+        <li>Select file</li>
+        <li>Click 'Create Index'</li>
+        <li>Enter search term(s)</li>
+        <li>Click 'Search'</li>
+      </md-content>
+    </md-sidenav>
+    <section layout="column" flex>
+      <section layout="row" style="height: 75px; min-height: 75px;">
+        <md-content layout-padding>
+          <input ng-hide="true" id="input" type="file" onchange="angular.element(this).scope().storeFiles(this)" multiple accept=".json"/>
+          <md-button ng-click="upload()">
+            <md-icon>add_box</md-icon>&nbspUpload</md-button>
+        </md-content>
+        <md-content flex="40" layout-padding style="overflow: hidden">
+          <md-select ng-model="selectedFile" placeholder="--select file--" ng-disabled="noFilesSelected">
+            <md-option ng-value="fileName" ng-repeat="fileName in fileNames">{{fileName}}</md-option>
+          </md-select>
+        </md-content>
+        <md-content layout-padding>
+          <md-button class="md-accent md-hue-2 md-raised" ng-click="createIndex()">Create Index</md-button>
+        </md-content>
+      </section>
+      <section layout="column" flex ng-show="showIndex">
+        <md-list flex>
+          <md-divider></md-divider>
+          <md-subheader>Index for {{selectedFile}}</md-subheader>
+          <md-divider></md-divider>
+          <md-list-item class="index-column" style="height: 20px; min-height: 0px; font-size: 0.8em; font-weight: bold; background-color: aliceblue">
+            <div>Tokens</div>
+            <div class="column-center" ng-repeat="fileContent in fileContents[fileLocation]">Document {{$index + 1}}</div>
+          </md-list-item>
+          <md-divider></md-divider>
+          <md-list-item class="index-column" ng-repeat="word in words" style="height: 16px; min-height: 0px; font-size: 0.8em;">
+            <div>{{word}}</div>
+            <div class="column-center" ng-repeat="fileContent in fileContents[fileLocation]"><md-icon style="font-size: 15px; color: lightseagreen; margin-top: 7px;" ng-show="index[word].includes($index)">done</md-icon></div>
+            <md-divider></md-divider>
+          </md-list-item>
+        </md-list>
+      </section>
+    </section>
+  </section>
 
   <!-- Angular.js Libraries -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
