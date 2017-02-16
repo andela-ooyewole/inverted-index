@@ -23,8 +23,12 @@
       <md-input-container class="md-block search-container" flex="50">
         <input class="search-input" ng-model="query">
       </md-input-container>
-      <md-button class="search-btn" ng-click="showToast()">Search&nbsp</md-button>
-      <div flex="20"></div>
+      <md-button class="search-btn" ng-click="searchIndex()">Search&nbsp</md-button>
+      <md-select ng-model="selectedIndexedFileName" ng-disabled="noFilesIndexed">
+          <md-option value="--All--">--All--</md-option>
+          <md-option ng-value="fileName" ng-repeat="fileName in fileNames">{{fileName}}</md-option>
+      </md-select>
+      <div flex="10"></div>
     </div>
   </md-toolbar>
   <section layout="row" flex class="content-section">
@@ -53,7 +57,7 @@
             <md-icon>add_box</md-icon>&nbspUpload</md-button>
         </md-content>
         <md-content flex="40" layout-padding>
-          <md-select ng-model="selectedFile" placeholder="--select file--" ng-disabled="noFilesSelected">
+          <md-select ng-model="selectedFileName" placeholder="--select file--" ng-disabled="noFilesSelected">
             <md-option ng-value="fileName" ng-repeat="fileName in fileNames">{{fileName}}</md-option>
           </md-select>
         </md-content>
@@ -61,10 +65,10 @@
           <md-button class="md-accent md-hue-2 md-raised" ng-click="createIndex()">Create Index</md-button>
         </md-content>
       </section>
-      <section layout="column" flex ng-show="showIndex">
-        <md-list flex>
+      <section layout="column" flex>
+        <md-list ng-show="createIndexActive" flex>
           <md-divider></md-divider>
-          <md-subheader>Index for {{selectedFile}}</md-subheader>
+          <md-subheader>Index for {{selectedFileName}}</md-subheader>
           <md-divider></md-divider>
           <md-list-item class="index-column index-column-header">
             <div>Tokens</div>
@@ -79,6 +83,25 @@
             <md-divider></md-divider>
           </md-list-item>
         </md-list>
+
+        <md-list ng-show="searchIndexActive" ng-repeat="(searchFileName, indices) in searchedIndexedFiles" flex>
+          <md-divider></md-divider>
+          <md-subheader>Index for {{searchFileName}}</md-subheader>
+          <md-divider></md-divider>
+          <md-list-item class="index-column index-column-header">
+            <div>Tokens</div>
+            <div class="column-center" ng-repeat="fileContent in fileContents[fileLocation]">Document {{$index + 1}}</div>
+          </md-list-item>
+          <md-divider></md-divider>
+          <md-list-item class="index-column index-column-row"  ng-repeat="(word, index) in indices">
+            <div>{{word}}</div>
+            <div class="column-center" ng-repeat="fileContent in fileContents[fileLocation]">
+              <md-icon class="index-found-tick" ng-show="index.includes($index)">done</md-icon>
+            </div>
+            <md-divider></md-divider>
+          </md-list-item>
+        </md-list>
+
       </section>
     </section>
   </section>

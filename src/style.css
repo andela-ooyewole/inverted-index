@@ -63,7 +63,7 @@ md-select {
 }
 
 .search-btn {
-  color : rgb(49, 46, 46);
+  color: rgb(49, 46, 46);
   background-color: lightgray;
   border-radius: 1px 4px 4px 1px;
   font-size: 14px;
@@ -77,7 +77,8 @@ md-select {
 }
 
 .side-panel {
-  border-right: solid whitesmoke 2px; width: 23%;
+  border-right: solid whitesmoke 2px;
+  width: 23%;
 }
 
 .title {
@@ -88,3 +89,15 @@ md-select {
 .toolbar {
   padding: 0 0px;
 }
+
+.toolbar md-select {
+  position: relative;
+  right: 232px;
+  width: 144px;
+  font-size: 15px;
+  background-color: white;
+  margin-bottom: 19px;
+  height: 31px;
+  color: rgba(0,0,0,0.87);
+}
+
