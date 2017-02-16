@@ -2,12 +2,41 @@
   text-align: center;
 }
 
+.file-handler {
+  height: 75px;
+  min-height: 75px;
+}
+
+.file-handler md-content {
+  overflow: hidden;
+}
+
 .index-column div {
   width: 150px;
 }
 
 .index-column .md-secondary-container {
   width: 0px;
+}
+
+.index-column-header {
+  height: 20px;
+  min-height: 0px;
+  font-size: 0.8em;
+  font-weight: bold;
+  background-color: aliceblue;
+}
+
+.index-column-row {
+  height: 16px;
+  min-height: 0px;
+  font-size: 0.8em;
+}
+
+.index-found-tick {
+  font-size: 15px;
+  color: lightseagreen;
+  margin-top: 7px;
 }
 
 md-content h4 {
