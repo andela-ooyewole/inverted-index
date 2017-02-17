@@ -15,27 +15,6 @@ class Index {
     this.indexedFiles = {};
   }
   /**
-   * Validate File
-   * @param {Object} file the selected file
-   * @returns {String} validation message
-   */
-  validateFile(file) {
-    let check = 'Valid file';
-    try {
-      if (typeof file !== 'object' || file.length === 0) {
-        check = 'File is empty';
-      }
-      file.forEach((key) => {
-        if (typeof key.title !== 'string' || typeof key.text !== 'string') {
-          check = 'Invalid file content';
-        }
-      });
-    } catch (error) {
-      check = 'Invalid file';
-    }
-    return check;
-  }
-  /**
    * Create Index
    *
    * createIndex method takes a single document parameter and builds an index
@@ -73,7 +52,6 @@ class Index {
     });
     this.indexedFiles[fileName] = indices;
   }
-
   /**
    * Get Index
    *
@@ -85,12 +63,8 @@ class Index {
    * and their indices
    */
   getIndex(fileName) {
-    // if (fileName === undefined) {
-    //   return this.indexedFiles;
-    // }
     return this.indexedFiles[fileName];
   }
-
   /**
    * Search Index
    *
@@ -123,6 +97,27 @@ class Index {
       });
     });
     return searchedIndexedFiles;
+  }
+  /**
+   * Validate File
+   * @param {Object} file the selected file
+   * @returns {String} validation message
+   */
+  validateFile(file) {
+    let check = 'Valid file';
+    try {
+      if (typeof file !== 'object' || file.length === 0) {
+        check = 'File is empty';
+      }
+      file.forEach((key) => {
+        if (typeof key.title !== 'string' || typeof key.text !== 'string') {
+          check = 'Invalid file content';
+        }
+      });
+    } catch (error) {
+      check = 'Invalid file';
+    }
+    return check;
   }
 }
 

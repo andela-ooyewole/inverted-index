@@ -10,26 +10,43 @@ app.controller('MyController', ($scope, $mdDialog, $mdToast) => {
     title: '',
     content: ''
   };
+  $scope.createIndexActive = false;
+  $scope.fileContents = [];
   $scope.fileNames = [];
+  $scope.noFilesIndexed = true;
   $scope.noFilesSelected = true;
   $scope.query = '';
-  $scope.selectedFile = '--select file--';
-  $scope.showIndex = false;
-  $scope.fileContents = [];
-
+  $scope.searchIndexActive = false;
+  $scope.searchedIndexedFiles = {};
+  $scope.selectedFileName = '--select file--';
+  $scope.selectedIndexedFileName = '--All--';
 
   $scope.createIndex = () => {
-    if ($scope.selectedFile !== '--select file--') $scope.showIndex = true;
-    if ($scope.fileNames.length > 0) {
-      $scope.fileLocation = $scope.fileNames.indexOf($scope.selectedFile);
+    if ($scope.selectedFileName !== '--select file--') {
+      $scope.createIndexActive = true;
+      $scope.searchIndexActive = false;
+    }
+    if ($scope.selectedFileName !== '--select file--') {
+      $scope.fileLocation = $scope.fileNames.indexOf($scope.selectedFileName);
       const fileContent = $scope.fileContents[$scope.fileLocation];
-      index.createIndex($scope.selectedFile, fileContent);
-      $scope.words = Object.keys(index.getIndex($scope.selectedFile));
-      $scope.index = index.getIndex($scope.selectedFile);
+      index.createIndex($scope.selectedFileName, fileContent);
+      $scope.words = Object.keys(index.getIndex($scope.selectedFileName));
+      $scope.index = index.getIndex($scope.selectedFileName);
+      $scope.noFilesIndexed = false;
     }
   };
-  $scope.search = () => {
-    $scope.result = $scope.query;
+  $scope.searchIndex = () => {
+    if ($scope.selectedIndexedFileName === '--All--') {
+      $scope.searchedIndexedFiles = index.searchIndex($scope.query);
+    } else if (index.getIndex($scope.selectedIndexedFileName) !== undefined) {
+      $scope.searchedIndexedFiles = index.searchIndex(
+        $scope.selectedIndexedFileName, $scope.query
+      );
+    } else {
+      return;
+    }
+    $scope.createIndexActive = false;
+    $scope.searchIndexActive = true;
   };
   // display error messages
   $scope.showAlert = (ev) => {
