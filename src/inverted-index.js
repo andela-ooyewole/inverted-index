@@ -17,7 +17,7 @@ class Index {
   /**
    * Create Index
    *
-   * createIndex method takes a single document parameter and builds an index
+   * createIndex method takes a single document and builds an index
    * from it
    *
    * @param {String} fileName Name of the document
@@ -68,8 +68,10 @@ class Index {
   /**
    * Search Index
    *
-   * @param {String} fileName Name of a file
-   * @param {String[]} tokens string or array of strings
+   * @param {String} fileName Name of a file defined by a '.json' extension,
+   * which is the first parameter of the phrases spread
+   * @param {String[]} tokens String or array of strings; which follow a
+   * a set fileName, or if no fileName is defined; constitute all parameters
    * @returns {type} description
    */
   searchIndex(...phrases) {
