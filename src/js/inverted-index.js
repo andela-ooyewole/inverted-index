@@ -1,5 +1,4 @@
 /* eslint no-unused-vars: "off"*/
-/* eslint class-methods-use-this: "off"*/
 
 /**
  * Index Class
@@ -7,13 +6,15 @@
  * @class
  */
 class Index {
+
   /**
-   * Constructor initiallizes indices to an empty object and keeps track of
+   * Constructor initializes indices to an empty object and keeps track of
    * indexed files
    */
   constructor() {
     this.indexedFiles = {};
   }
+
   /**
    * Create Index
    *
@@ -21,30 +22,24 @@ class Index {
    * from it
    *
    * @param {String} fileName Name of the document
-   * @param {Object} fileContent Contents of the documnet
+   * @param {Object} fileContent Contents of the document
    * @returns {Object} Object containing file indices
    */
   createIndex(fileName, fileContent) {
     const indices = {};
     const documentText = [];
-    const searchOptimizedDocText = [];
+
     fileContent.forEach((document) => {
-      // normalize words
-      const normalizedText = (`${document.title} ${document.text}`)
-        .toLowerCase().trim().replace(/[^a-zA-Z 0-9]+/g, '');
-      documentText.push(normalizedText);
-      searchOptimizedDocText.push(` ${normalizedText} `);
+      documentText.push(` ${Index.normalizeText(document.text)} `);
     });
-    // tokenized words
-    const documentWords = documentText.join(' ').split(/\s/);
-    // filter unique words
-    const uniqueWords = documentWords.filter((word, index) =>
-      documentWords.indexOf(word) === index);
+
+    const documentWords = Index.tokenizeText(documentText);
+    const uniqueWords = Index.filterUniqueWords(documentWords);
     const sortedUniqueWords = uniqueWords.sort();
 
     sortedUniqueWords.forEach((word) => {
       indices[word] = [];
-      searchOptimizedDocText.forEach((document, position) => {
+      documentText.forEach((document, position) => {
         if (document.includes(` ${word} `)) {
           indices[word].push(position);
         }
@@ -52,6 +47,17 @@ class Index {
     });
     this.indexedFiles[fileName] = indices;
   }
+
+  /**
+   * Filter unique words
+   *
+   * @param {String[]} words an array of individual word strings
+   * @returns {String[]} an array of unique strings contained in words
+   */
+  static filterUniqueWords(words) {
+    return words.filter((word, index) => words.indexOf(word) === index);
+  }
+
   /**
    * Get Index
    *
@@ -65,22 +71,30 @@ class Index {
   getIndex(fileName) {
     return this.indexedFiles[fileName];
   }
+
+  /**
+   * Normalize string
+   *
+   * @param {String} text text string that is to be normalized
+   * @returns {String} a normalized text string
+   */
+  static normalizeText(text) {
+    return text.toLowerCase().trim().replace(/[^a-zA-Z 0-9]+/g, '');
+  }
+
   /**
    * Search Index
    *
-   * @param {String} fileName Name of a file defined by a '.json' extension,
-   * which is the first parameter of the phrases spread
-   * @param {String[]} tokens String or array of strings; which follow a
-   * a set fileName, or if no fileName is defined; constitute all parameters
-   * @returns {type} description
+   * @param {string} fileName The name of the file to be searched
+   * @param {String[]} phrases String or array of strings
+   * @returns {Object} Object containing the indices that match the tokens
    */
-  searchIndex(...phrases) {
-    let fileName = [];
-    if (phrases[0].slice(-5) === '.json') {
-      fileName[0] = phrases[0];
-      phrases.splice(0, 1);
+  searchIndex(fileName, ...phrases) {
+    let bookName = [];
+    if (fileName) {
+      bookName[0] = fileName;
     } else {
-      fileName = Object.keys(this.indexedFiles);
+      bookName = Object.keys(this.indexedFiles);
     }
     let searchTokens = [];
     phrases.forEach((tokens) => {
@@ -90,7 +104,7 @@ class Index {
       });
     });
     const searchedIndexedFiles = {};
-    fileName.forEach((name) => {
+    bookName.forEach((name) => {
       searchedIndexedFiles[name] = {};
       searchTokens.forEach((token) => {
         if (token in this.indexedFiles[name]) {
@@ -100,12 +114,23 @@ class Index {
     });
     return searchedIndexedFiles;
   }
+
+  /**
+   * Tokenize string
+   *
+   * @param {String[]} text an array of string values
+   * @returns {String[]} an array of individual words contained in the text
+   */
+  static tokenizeText(text) {
+    return text.join(' ').match(/\w+/g);
+  }
   /**
    * Validate File
+   *
    * @param {Object} file the selected file
    * @returns {String} validation message
    */
-  validateFile(file) {
+  static validateFile(file) {
     let check = 'Valid file';
     try {
       if (typeof file !== 'object' || file.length === 0) {

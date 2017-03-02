@@ -34,16 +34,16 @@ gulp.task('browser-sync-tests', () => {
 });
 
 gulp.task('watch', ['browser-sync', 'browser-sync-tests'], () => {
-  gulp.watch('src/*.js', reload);
-  gulp.watch('src/*.css', reload);
-  gulp.watch('src/*.html').on('change', reload);
+  gulp.watch('src/**/*.js', reload);
+  gulp.watch('src/**/*.css', reload);
+  gulp.watch('src/**/*.html').on('change', reload);
   gulp.watch(
     [
-      './src/inverted-index.js',
+      './src/js/inverted-index.js',
       './jasmine/spec/inverted-index-test.js',
       './jasmine/*.json'
     ], ['build-tests']);
-  gulp.watch('./jasmine/spec/bundled-inverted-index-test.js', reloadT);
+  gulp.watch('./jasmine/dist/bundled-inverted-index-test.js', reloadT);
 });
 
 gulp.task('karma', ['build-tests'], (done) => {
