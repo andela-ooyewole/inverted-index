@@ -10,44 +10,50 @@ app.controller('MyController', ($scope, $mdDialog, $mdToast) => {
     title: '',
     content: ''
   };
-  $scope.createIndexActive = false;
+  $scope.showIndex = false;
   $scope.fileContents = [];
+  $scope.allFilesContents = {};
   $scope.fileNames = [];
   $scope.noFilesIndexed = true;
   $scope.noFilesSelected = true;
   $scope.query = '';
-  $scope.searchIndexActive = false;
   $scope.searchedIndexedFiles = {};
   $scope.selectedFileName = '--select file--';
   $scope.selectedIndexedFileName = '--All--';
 
   $scope.createIndex = () => {
-    if ($scope.selectedFileName !== '--select file--') {
-      $scope.createIndexActive = true;
-      $scope.searchIndexActive = false;
+    if ($scope.selectedFileName === '--select file--') {
+      $scope.errorMessage.title = 'No file selected';
+      $scope.errorMessage.content = 'Select an uploaded file to index';
+      $scope.showAlert();
     }
     if ($scope.selectedFileName !== '--select file--') {
+      $scope.showIndex = true;
       $scope.fileLocation = $scope.fileNames.indexOf($scope.selectedFileName);
       const fileContent = $scope.fileContents[$scope.fileLocation];
+      $scope.allFilesContents[$scope.selectedFileName] = fileContent;
       index.createIndex($scope.selectedFileName, fileContent);
-      $scope.words = Object.keys(index.getIndex($scope.selectedFileName));
-      $scope.index = index.getIndex($scope.selectedFileName);
+      $scope.searchedIndexedFiles = {};
+      $scope.searchedIndexedFiles[$scope.selectedFileName] = index.indexedFiles[
+        $scope.selectedFileName];
       $scope.noFilesIndexed = false;
     }
   };
+
   $scope.searchIndex = () => {
-    if ($scope.selectedIndexedFileName === '--All--') {
-      $scope.searchedIndexedFiles = index.searchIndex($scope.query);
+    if ($scope.noFilesIndexed) {
+      $scope.errorMessage.title = 'No index created';
+      $scope.errorMessage.content = 'Create an index to search';
+      $scope.showAlert();
+    } else if ($scope.selectedIndexedFileName === '--All--') {
+      $scope.searchedIndexedFiles = index.searchIndex(undefined, $scope.query);
     } else if (index.getIndex($scope.selectedIndexedFileName) !== undefined) {
       $scope.searchedIndexedFiles = index.searchIndex(
         $scope.selectedIndexedFileName, $scope.query
       );
-    } else {
-      return;
     }
-    $scope.createIndexActive = false;
-    $scope.searchIndexActive = true;
   };
+
   // display error messages
   $scope.showAlert = (ev) => {
     $mdDialog.show(
@@ -61,6 +67,7 @@ app.controller('MyController', ($scope, $mdDialog, $mdToast) => {
         .targetEvent(ev)
     );
   };
+
   // valid file uploaded alert
   $scope.showSuccessMessage = () => {
     $mdToast.show(
@@ -70,6 +77,7 @@ app.controller('MyController', ($scope, $mdDialog, $mdToast) => {
         .hideDelay(3000)
     );
   };
+
   // store uploaded files
   $scope.storeFiles = (element) => {
     $scope.noFilesSelected = false;
@@ -88,7 +96,7 @@ app.controller('MyController', ($scope, $mdDialog, $mdToast) => {
             const name = file.name;
             const fileContent = e.target.result;
             const content = JSON.parse(fileContent);
-            const fileValidity = index.validateFile(content);
+            const fileValidity = Index.validateFile(content);
             if (fileValidity === 'Valid file') {
               $scope.fileContents.push(content);
               $scope.fileNames.push(name);
@@ -105,6 +113,7 @@ app.controller('MyController', ($scope, $mdDialog, $mdToast) => {
       }
     });
   };
+
   // trigger file selection for input
   $scope.upload = () => {
     document.getElementById('input').click();
